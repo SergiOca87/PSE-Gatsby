@@ -83,7 +83,7 @@ const IndexPage = ({ data }) => {
 
 	//On Load, set all properties to be filteredProperties
 	useEffect(() => {
-		setFilteredProperties([...properties]);
+		setFilteredProperties(properties);
 	}, []);
 
 	//When offering or type changes, filter properties
