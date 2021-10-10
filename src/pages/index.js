@@ -83,7 +83,9 @@ const IndexPage = ({ data }) => {
 
 	//On Load, set all properties to be filteredProperties
 	useEffect(() => {
-		setFilteredProperties(properties);
+		if (properties) {
+			setFilteredProperties(properties);
+		}
 	}, []);
 
 	//When offering or type changes, filter properties
@@ -91,7 +93,7 @@ const IndexPage = ({ data }) => {
 		let results = [];
 
 		if (selectedOffering === 'All' && selectedType === 'All') {
-			setFilteredProperties([...properties]);
+			setFilteredProperties(properties);
 			setActiveFilters(false);
 		} else if (selectedOffering !== 'All' && selectedType === 'All') {
 			setActiveFilters(true);
@@ -281,13 +283,13 @@ const IndexPage = ({ data }) => {
 									`}
 								>
 									<h2 className="mb-5 mt-3 text-center">
-										{filteredProperties.length}{' '}
-										{filteredProperties.length === 1
+										{filteredProperties?.length}{' '}
+										{filteredProperties?.length === 1
 											? 'Property found'
 											: 'properties found'}{' '}
 									</h2>
 									<Row>
-										{filteredProperties.map((property) => {
+										{filteredProperties?.map((property) => {
 											return (
 												<Col lg={4} md={6}>
 													<PropertyCard
