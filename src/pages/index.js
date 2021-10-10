@@ -76,17 +76,17 @@ const IndexPage = ({ data }) => {
 	const [activeFilters, setActiveFilters] = useState(true);
 	// const [search, setSearch] = useState('');
 
-	const properties = data.allWpProperty.edges;
+	const properties = data?.allWpProperty.edges;
+
+	//On Load, set all properties to be filteredProperties
+	// useEffect(() => {
+	// 	if (properties) {
+	// 		setFilteredProperties(properties);
+	// 	}
+	// }, []);
 
 	const { filteredProperties, setFilteredProperties } =
 		useContext(PropertiesContext);
-
-	//On Load, set all properties to be filteredProperties
-	useEffect(() => {
-		if (properties) {
-			setFilteredProperties(properties);
-		}
-	}, []);
 
 	//When offering or type changes, filter properties
 	useEffect(() => {
