@@ -17,6 +17,7 @@ import {
 	Button,
 	Form,
 	Nav,
+	Spinner,
 } from 'react-bootstrap';
 import Map from '../components/Map';
 import MapList from '../components/MapList';
@@ -68,7 +69,6 @@ const StyledFooter = styled.div`
 const IndexPage = ({ data }) => {
 	//Map and List States
 	const [childClicked, setChildClicked] = useState(null);
-	const [loading, isLoading] = useState(false);
 
 	// Filters
 	const [selectedOffering, setSelectedOffering] = useState('All');
@@ -84,6 +84,8 @@ const IndexPage = ({ data }) => {
 	// 		setFilteredProperties(properties);
 	// 	}
 	// }, []);
+
+	const { loading } = useContext(PropertiesContext);
 
 	const { filteredProperties, setFilteredProperties } =
 		useContext(PropertiesContext);
@@ -274,66 +276,89 @@ const IndexPage = ({ data }) => {
 							</StyledForm>
 						</StyledFilters>
 
-						<Tab.Content>
-							<Tab.Pane eventKey="grid">
-								<Container
-									className="mb-5"
-									css={css`
-										min-height: 500px;
-									`}
-								>
-									<h2 className="mb-5 mt-3 text-center">
-										{filteredProperties?.length}{' '}
-										{filteredProperties?.length === 1
-											? 'Property found'
-											: 'properties found'}{' '}
-									</h2>
-									<Row>
-										{filteredProperties?.map((property) => {
-											return (
-												<Col lg={4} md={6}>
-													<PropertyCard
-														property={property}
-													/>
-												</Col>
-											);
-										})}
-									</Row>
-								</Container>
-							</Tab.Pane>
-							<Tab.Pane eventKey="map">
-								<Container fluid>
-									<div
+						{loading === false ? (
+							<Tab.Content>
+								<Tab.Pane eventKey="grid">
+									<Container
+										className="mb-5"
 										css={css`
-											max-height: 600px;
-											overflow: hidden;
+											min-height: 500px;
 										`}
 									>
+										<h2 className="mb-5 mt-3 text-center">
+											{filteredProperties?.length}{' '}
+											{filteredProperties?.length === 1
+												? 'Property found'
+												: 'properties found'}{' '}
+										</h2>
 										<Row>
-											<Col lg={7}>
-												<Map
-													properties={
-														filteredProperties
-													}
-													childClicked={childClicked}
-													setChildClicked={
-														setChildClicked
-													}
-												/>
-											</Col>
-											<Col lg={5}>
-												<MapList
-													properties={
-														filteredProperties
-													}
-													childClicked={childClicked}
-												/>
-											</Col>
+											{filteredProperties?.map(
+												(property) => {
+													return (
+														<Col lg={4} md={6}>
+															<PropertyCard
+																property={
+																	property
+																}
+															/>
+														</Col>
+													);
+												}
+											)}
 										</Row>
-									</div>
-								</Container>
-							</Tab.Pane>
-						</Tab.Content>
+									</Container>
+								</Tab.Pane>
+								<Tab.Pane eventKey="map">
+									<Container fluid>
+										<div
+											css={css`
+												max-height: 600px;
+												overflow: hidden;
+											`}
+										>
+											<Row>
+												<Col lg={7}>
+													<Map
+														properties={
+															filteredProperties
+														}
+														childClicked={
+															childClicked
+														}
+														setChildClicked={
+															setChildClicked
+														}
+													/>
+												</Col>
+												<Col lg={5}>
+													<MapList
+														properties={
+															filteredProperties
+														}
+														childClicked={
+															childClicked
+														}
+													/>
+												</Col>
+											</Row>
+										</div>
+									</Container>
+								</Tab.Pane>
+							</Tab.Content>
+						) : (
+							<div
+								className="text-center mt-4 mb-5"
+								css={css`
+									padding-bottom: 300px;
+								`}
+							>
+								<Spinner animation="border" role="status">
+									<span className="visually-hidden">
+										Loading...
+									</span>
+								</Spinner>
+							</div>
+						)}
 					</Tab.Container>
 				</Container>
 			</main>

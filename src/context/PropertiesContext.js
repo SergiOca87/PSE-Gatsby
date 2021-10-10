@@ -10,12 +10,19 @@ export const PropertiesProvider = ({ data, children }) => {
 
 	const [selectedProperty, setSelectedProperty] = useState('');
 	const [filteredProperties, setFilteredProperties] = useState([]);
+	const [loading, setLoading] = useState(true);
 
+	//Fill up the filteredProperties state
 	useEffect(() => {
 		if (properties) {
 			setFilteredProperties(properties);
 		}
 	}, []);
+
+	//Set loading to false when filteredProperties change
+	useEffect(() => {
+		setLoading(false);
+	}, [filteredProperties]);
 
 	return (
 		<PropertiesContext.Provider
@@ -24,6 +31,8 @@ export const PropertiesProvider = ({ data, children }) => {
 				setSelectedProperty,
 				filteredProperties,
 				setFilteredProperties,
+				loading,
+				setLoading,
 			}}
 		>
 			{children}
